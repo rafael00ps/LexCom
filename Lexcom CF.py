@@ -3,6 +3,11 @@ import difflib
 import requests
 import html2text
 import csv
+import urllib3
+
+
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
 DIRETORIO = '/Users/rafael/Library/Mobile Documents/iCloud~md~obsidian/Documents/Alma/Direito/Legislação/Constituição da República Federativa do Brasil de 1988.md'
 
@@ -58,8 +63,6 @@ with open('D.md', 'w', encoding='utf-8') as file:
 
     for line in footer_lines:
         file.write(f'|  | {line.strip()} |\n')
-
-print("Processamento da tabela concluído!")
 
 
 def remove_spaces_and_gt_at_beginning_of_paragraphs(text):
@@ -205,8 +208,6 @@ for url, file_b in zip(urls, files_list):
     markdown_text = get_markdown_from_url(url)
     compare_and_update_files(markdown_text, file_b)
 
-print("Atualização do site do Planalto concluída!")
-
 def ler_tabela():
     substituicoes = {}
     anexos = []
@@ -244,4 +245,3 @@ conteudo_modificado = aplicar_substituicoes_e_anexos(conteudo, substituicoes, an
 with open(DIRETORIO, 'w', encoding='utf-8') as file:
     file.write(conteudo_modificado)
 
-print("Atualização do arquivo de lei com base na tabela concluída!")
