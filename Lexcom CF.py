@@ -4,7 +4,7 @@ import requests
 import html2text
 import csv
 
-DIRETORIO = 'Constituição da República Federativa do Brasil de 1988.md'
+DIRETORIO = '/Users/rafael/Library/Mobile Documents/iCloud~md~obsidian/Documents/Alma/Direito/Legislação/Constituição da República Federativa do Brasil de 1988.md'
 
 def remove_expressions(line):
     line = line.replace('==', '')
@@ -17,6 +17,29 @@ def remove_expressions(line):
 
 with open(DIRETORIO, 'r', encoding='utf-8') as file:
     lines = file.readlines()
+
+
+def merge_sr_lines(lines):
+    """Merging lines that start with <!--SR: with the previous line."""
+    merged_lines = []
+    skip_next = False
+    for i in range(len(lines)):
+        if skip_next:
+            skip_next = False
+            continue
+        if i < len(lines) - 1 and lines[i+1].startswith('<!--SR:'):
+            merged_line = lines[i].strip() + " " + lines[i+1].strip()
+            merged_lines.append(merged_line)
+            skip_next = True
+        else:
+            merged_lines.append(lines[i].strip())
+    return merged_lines
+
+with open(DIRETORIO, 'r', encoding='utf-8') as file:
+    lines = file.readlines()
+
+# Adjusting lines by merging those with <!--SR: to the previous one.
+lines = merge_sr_lines(lines)
 
 with open('D.md', 'w', encoding='utf-8') as file:
     file.write('| Original | Comentado |\n')
@@ -204,6 +227,12 @@ def aplicar_substituicoes_e_anexos(conteudo, substituicoes, anexos):
         conteudo = re.sub(pattern, comentado, conteudo)
     for anexo in anexos:
         conteudo += '\n' + anexo
+
+
+    # Adicionando quebra de linha antes de <!--SR:
+    conteudo = re.sub(r'<!--SR:', '\n<!--SR:', conteudo)
+
+
     return conteudo
 
 with open(DIRETORIO, 'r', encoding='utf-8') as file:
