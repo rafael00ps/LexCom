@@ -13,7 +13,7 @@ def remove_expressions(line):
     line = re.sub(r'\[\^\d+\]', '', line)  # Remove números entre "[^" e "]"
     return line.strip()
 
-with open('Constituição da República Federativa do Brasil de 1988 - Lei Seca.md', 'r', encoding='utf-8') as file:
+with open('Constituição da República Federativa do Brasil de 1988.md', 'r', encoding='utf-8') as file:
     lines = file.readlines()
 
 with open('D.md', 'w', encoding='utf-8') as file:
@@ -174,7 +174,7 @@ def compare_and_update_files(markdown_text, file_b):
     write_paragraphs(file_b, updated_str_b.split('\n\n'))
 
 urls = ['https://www.planalto.gov.br/ccivil_03/constituicao/ConstituicaoCompilado.htm']
-files_list = ['Constituição da República Federativa do Brasil de 1988 - Lei Seca.md']
+files_list = ['Constituição da República Federativa do Brasil de 1988.md']
 
 for url, file_b in zip(urls, files_list):
     markdown_text = get_markdown_from_url(url)
@@ -204,13 +204,13 @@ def aplicar_substituicoes_e_anexos(conteudo, substituicoes, anexos):
         conteudo += '\n' + anexo
     return conteudo
 
-with open('Constituição da República Federativa do Brasil de 1988 - Lei Seca.md', 'r', encoding='utf-8') as file:
+with open('Constituição da República Federativa do Brasil de 1988.md', 'r', encoding='utf-8') as file:
     conteudo = file.read()
 
 substituicoes, anexos = ler_tabela()
 conteudo_modificado = aplicar_substituicoes_e_anexos(conteudo, substituicoes, anexos)
 
-with open('Constituição da República Federativa do Brasil de 1988 - Lei Seca.md', 'w', encoding='utf-8') as file:
+with open('Constituição da República Federativa do Brasil de 1988.md', 'w', encoding='utf-8') as file:
     file.write(conteudo_modificado)
 
 print("Atualização do arquivo de lei com base na tabela concluída!")
