@@ -9,10 +9,10 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-DIRETORIO = '/Users/rafael/Library/Mobile Documents/iCloud~md~obsidian/Documents/Alma/Direito/Legislação/Decreto-Lei nº 4.657, de 4 de Setembro de 1942.md'
+DIRETORIO = '/Users/rafael/Alma/Direito/Legislação/Decreto-Lei nº 4.657, de 4 de Setembro de 1942.md'
 
 header = """---
-Aliases: LINDB
+Aliases: LINDB, Lei de Introdução às Normas do Direito Brasileiro
 Tags: Legislação
 Publicação: 1942-09-09
 obsidianUIMode: preview
@@ -57,7 +57,7 @@ with open(DIRETORIO, 'r', encoding='utf-8') as file:
 # Adjusting lines by merging those with <!--SR: to the previous one.
 lines = merge_sr_lines(lines)
 
-with open('D.md', 'w', encoding='utf-8') as file:
+with open('LINDBT.md', 'w', encoding='utf-8') as file:
     file.write('| Original | Comentado |\n')
     file.write('|----------|-----------|\n')
     
@@ -105,6 +105,19 @@ def adjust_titles_chapters_sections_and_subsections(text):
     adjusted_text = subsection_pattern.sub(replace_subsection, adjusted_text)
     
     return adjusted_text
+
+
+
+def replace_expression(text):
+    # Substitui "Art. n o" por "Art. nº"
+    text = re.sub(r'Art\. (\d+) o', r'Art. \1º', text)
+    
+    # Substitui "§ n o" por "§ nº"
+    text = re.sub(r'§ (\d+) o', r'§ \1º', text)
+    
+    return text
+
+
 
 def remove_double_asterisks(text):
     return text.replace("**", "")
@@ -176,6 +189,7 @@ def get_markdown_from_url(url):
     markdown_text = remove_multiple_linebreaks(markdown_text)
     markdown_text = markdown_text.replace("{2,}", "\n")
     markdown_text = remove_spaces_at_end_of_paragraphs(markdown_text)
+    markdown_text = replace_expression(markdown_text)
     return markdown_text
 
 def remove_multiple_linebreaks(text):
@@ -222,7 +236,7 @@ for url, file_b in zip(urls, files_list):
 def ler_tabela():
     substituicoes = {}
     anexos = []
-    with open('D.md', 'r', encoding='utf-8') as file:
+    with open('LINDBT.md', 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file, delimiter='|')
         for row in reader:
             original = row[' Original '].strip()
