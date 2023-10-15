@@ -9,7 +9,18 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-DIRETORIO = '/Users/rafael/Library/Mobile Documents/iCloud~md~obsidian/Documents/Alma/Direito/Legislação/Constituição da República Federativa do Brasil de 1988.md'
+DIRETORIO = '/Users/rafael/Alma/Direito/Legislação/Constituição da República Federativa do Brasil de 1988.md'
+
+header = """---
+Aliases: Constituição Federal, CF
+Tags: Legislação
+Publicação: 1988-10-05
+obsidianUIMode: preview
+---
+
+"""
+
+
 
 def remove_expressions(line):
     line = line.replace('==', '')
@@ -46,7 +57,7 @@ with open(DIRETORIO, 'r', encoding='utf-8') as file:
 # Adjusting lines by merging those with <!--SR: to the previous one.
 lines = merge_sr_lines(lines)
 
-with open('D.md', 'w', encoding='utf-8') as file:
+with open('CFT.md', 'w', encoding='utf-8') as file:
     file.write('| Original | Comentado |\n')
     file.write('|----------|-----------|\n')
     
@@ -211,7 +222,7 @@ for url, file_b in zip(urls, files_list):
 def ler_tabela():
     substituicoes = {}
     anexos = []
-    with open('D.md', 'r', encoding='utf-8') as file:
+    with open('CFT.md', 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file, delimiter='|')
         for row in reader:
             original = row[' Original '].strip()
@@ -243,5 +254,5 @@ substituicoes, anexos = ler_tabela()
 conteudo_modificado = aplicar_substituicoes_e_anexos(conteudo, substituicoes, anexos)
 
 with open(DIRETORIO, 'w', encoding='utf-8') as file:
-    file.write(conteudo_modificado)
+    file.write(header + conteudo_modificado)
 

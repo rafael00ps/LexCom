@@ -242,7 +242,7 @@ for url, file_b in zip(urls, files_list):
 def ler_tabela():
     substituicoes = {}
     anexos = []
-    with open('CDCT.md', 'r', encoding='utf-8') as file:
+    with open('CCT.md', 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file, delimiter='|')
         for row in reader:
             original = row[' Original '].strip()
