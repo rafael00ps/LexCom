@@ -166,6 +166,7 @@ def get_markdown_from_url(url):
     markdown_text = remove_spaces_and_gt_at_beginning_of_paragraphs(markdown_text)
     markdown_text = markdown_text.replace("~~~~ ", "")
     markdown_text = markdown_text.replace("\\", "")
+    markdown_text = markdown_text.replace("*", "")
     markdown_text = markdown_text.replace("_", "")
     markdown_text = markdown_text.replace("", "-")
     markdown_text = remove_double_asterisks(markdown_text)

@@ -180,6 +180,7 @@ def get_markdown_from_url(url):
     markdown_text = markdown_text.replace("~~~~ ", "")
     markdown_text = markdown_text.replace("\\", "")
     markdown_text = markdown_text.replace("_", "")
+    markdown_text = markdown_text.replace("*", "")
     markdown_text = markdown_text.replace("", "-")
     markdown_text = remove_double_asterisks(markdown_text)
     markdown_text = remove_hashtags(markdown_text)
