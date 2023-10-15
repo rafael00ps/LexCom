@@ -189,6 +189,10 @@ def get_markdown_from_url(url):
     markdown_text = remove_multiple_linebreaks(markdown_text)
     markdown_text = markdown_text.replace("{2,}", "\n")
     markdown_text = remove_spaces_at_end_of_paragraphs(markdown_text)
+    markdown_text = markdown_text.replace(" .", ".")
+    markdown_text = markdown_text.replace(" ;", ";")
+    markdown_text = markdown_text.replace(" :", ":")
+
     return markdown_text
 
 def remove_multiple_linebreaks(text):

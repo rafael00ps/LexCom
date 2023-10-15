@@ -214,6 +214,7 @@ def get_markdown_from_url(url):
     markdown_text = replace_expression(markdown_text)
     markdown_text = remove_after_substring(markdown_text, substring)
 
+
     return markdown_text
 
 def remove_multiple_linebreaks(text):

@@ -87,6 +87,13 @@ def adjust_titles_chapters_sections_and_subsections(text):
     def replace_title(match):
         return "# " + match.group(1) + " - " + match.group(2)
     
+    def replace_preambulo(match):
+        return "# PREÂMBULO"
+
+
+    def replace_act(match):
+        return "# ATO DAS DISPOSIÇÕES CONSTITUCIONAIS TRANSITÓRIAS"
+    
     def replace_chapter(match):
         return "## " + match.group(1) + " - " + match.group(2)
         
@@ -97,11 +104,15 @@ def adjust_titles_chapters_sections_and_subsections(text):
         return "#### " + match.group(1) + " - " + match.group(2)
 
     title_pattern = re.compile(r"(TÍTULO [IVXLC]+)\n\n([^\n]+)")
+    preambulo_pattern = re.compile(r"PREÂMBULO")
+    act_pattern = re.compile(r"ATO DAS DISPOSIÇÕES CONSTITUCIONAIS TRANSITÓRIAS")
     chapter_pattern = re.compile(r"(CAPÍTULO [IVXLC]+)\n\n([^\n]+)")
     section_pattern = re.compile(r"(Seção [IVXLC]+)\n\n([^\n]+)")
     subsection_pattern = re.compile(r"(Subseção [IVXLC]+)\n\n([^\n]+)")
     
     adjusted_text = title_pattern.sub(replace_title, text)
+    adjusted_text = preambulo_pattern.sub(replace_preambulo,adjusted_text)
+    adjusted_text = act_pattern.sub(replace_act, adjusted_text)
     adjusted_text = chapter_pattern.sub(replace_chapter, adjusted_text)
     adjusted_text = section_pattern.sub(replace_section, adjusted_text)
     adjusted_text = subsection_pattern.sub(replace_subsection, adjusted_text)
