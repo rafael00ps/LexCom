@@ -1,7 +1,7 @@
 # LexCom
 Atualização automática de Legislação Comentada
 
-COMO USAR: Alterar DIRETORIO para o qual esteja o arquivo da legislação correspondente.
+COMO USAR: Alterar DIRETORIO para o caminho do arquivo de texto com a legislação correspondente. Alterar TABELA para o caminho com o arquivo para tabela.
 
 Resumo
 
