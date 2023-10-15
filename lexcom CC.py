@@ -58,7 +58,7 @@ with open(DIRETORIO, 'r', encoding='utf-8') as file:
 # Adjusting lines by merging those with <!--SR: to the previous one.
 lines = merge_sr_lines(lines)
 
-with open('CDCT.md', 'w', encoding='utf-8') as file:
+with open(TABELA, 'w', encoding='utf-8') as file:
     file.write('| Original | Comentado |\n')
     file.write('|----------|-----------|\n')
     

@@ -9,15 +9,15 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-DIRETORIO = '/Users/rafael/Alma/Direito/Legislação/Lei nº 8.078, de 11 de Setembro de 1990.md'
-TABELA = '/Users/rafael/Library/Mobile Documents/com~apple~CloudDocs/Code/Lexcom/CDCT.md'
+DIRETORIO = '/Users/rafael/Alma/Direito/Legislação/Decreto-Lei nº 3.689, de 3 de Outubro de 1941.md'
+TABELA = '/Users/rafael/Library/Mobile Documents/com~apple~CloudDocs/Code/Lexcom/CPPT.md'
 
 
 header = """---
-Aliases: CDC, Código de Defesa do Consumidor
+Aliases: CPP, Código de Processo Penal
 Tags: Legislação
-Publicação: 1990-09-12
-Retificação: 2007-01-10
+Publicação: 1941-10-13
+Retificação: 1941-10-24
 obsidianUIMode: preview
 ---
 
@@ -86,28 +86,32 @@ def remove_spaces_and_gt_at_beginning_of_paragraphs(text):
 
 def adjust_titles_chapters_sections_and_subsections(text):
 
+    def replace_parte(match):
+        return "# " + match.group(1) + " " + match.group(2) + "\n"
 
     def replace_title(match):
         title_text = ' '.join(match.group(2).split()).replace('- -', '-')
-        return "# " + match.group(1) + " - " + title_text
+        return "## " + match.group(1) + " - " + title_text
     
     def replace_chapter(match):
         chapter_title = ' '.join(match.group(4).split()).replace('- -', '-').replace('- ', '-')
-        return "## " + match.group(1) + (match.group(3) or "") + " - " + chapter_title
+        return "### " + match.group(1) + (match.group(3) or "") + " - " + chapter_title
         
     def replace_section(match):
         section_title = ' '.join(match.group(2).split())
-        return "### " + match.group(1) + " - " + section_title
+        return "#### " + match.group(1) + " - " + section_title
 
     def replace_subsection(match):
-        return "#### " + match.group(1) + " - " + match.group(2)
+        return "##### " + match.group(1) + " - " + match.group(2)
 
+    parte_pattern = re.compile(r"(PARTE)\s([^\n]+)")
     title_pattern = re.compile(r"(TÍTULO [IVXLC]+)((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))")
-    chapter_pattern = re.compile(r"(CAPÍTULO [IVXLC]+)(\s*(-[A-Z]))?((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))", re.IGNORECASE)
-    section_pattern = re.compile(r"(SEÇÃO [IVXLC]+)((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))", re.IGNORECASE)
+    chapter_pattern = re.compile(r"(CAPÍTULO [IVXLC]+)(\s*(-[A-Z]))?((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))")
+    section_pattern = re.compile(r"(SEÇÃO [IVXLC]+)((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))")
     subsection_pattern = re.compile(r"(Subseção [IVXLC]+)\n\n([^\n]+)")
     
-    adjusted_text = title_pattern.sub(replace_title, text)
+    adjusted_text = parte_pattern.sub(replace_parte, text)
+    adjusted_text = title_pattern.sub(replace_title, adjusted_text)
     adjusted_text = chapter_pattern.sub(replace_chapter, adjusted_text)
     adjusted_text = section_pattern.sub(replace_section, adjusted_text)
     adjusted_text = subsection_pattern.sub(replace_subsection, adjusted_text)
@@ -221,7 +225,7 @@ def compare_and_update_files(markdown_text, file_b):
 
     write_paragraphs(file_b, updated_str_b.split('\n\n'))
 
-urls = ['http://www.planalto.gov.br/ccivil_03/Leis/L8078compilado.htm']
+urls = ['http://www.planalto.gov.br/ccivil_03/Decreto-Lei/Del3689Compilado.htm']
 files_list = [DIRETORIO]
 
 for url, file_b in zip(urls, files_list):
