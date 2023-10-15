@@ -11,4 +11,4 @@ Extração e Limpeza: Funções auxiliares são usadas para limpar e formatar co
 
 Atualização do Documento: O documento é atualizado usando o site do Planalto.
 
-Aplicação de Comentários: Comentários do arquivo D.md são aplicados ao documento.
+Aplicação de Comentários: Comentários armazenados em tabela são aplicados ao documento.
