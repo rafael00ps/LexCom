@@ -10,6 +10,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 DIRETORIO = '/Users/rafael/Alma/Direito/Legislação/Constituição da República Federativa do Brasil de 1988.md'
+TABELA = '/Users/rafael/Library/Mobile Documents/com~apple~CloudDocs/Code/Lexcom/CFT.md'
+
 
 header = """---
 Aliases: Constituição Federal, CF
@@ -222,7 +224,7 @@ for url, file_b in zip(urls, files_list):
 def ler_tabela():
     substituicoes = {}
     anexos = []
-    with open('CFT.md', 'r', encoding='utf-8') as file:
+    with open(TABELA, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file, delimiter='|')
         for row in reader:
             original = row[' Original '].strip()

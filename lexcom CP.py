@@ -10,6 +10,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 DIRETORIO = '/Users/rafael/Alma/Direito/Legislação/Decreto-Lei nº 2.848, de 7 de Dezembro de 1940.md'
+TABELA = '/Users/rafael/Library/Mobile Documents/com~apple~CloudDocs/Code/Lexcom/CPT.md'
+
 
 header = """---
 Aliases: CPB, Código Penal
@@ -233,7 +235,7 @@ for url, file_b in zip(urls, files_list):
 def ler_tabela():
     substituicoes = {}
     anexos = []
-    with open('CPT.md', 'r', encoding='utf-8') as file:
+    with open(TABELA, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file, delimiter='|')
         for row in reader:
             original = row[' Original '].strip()

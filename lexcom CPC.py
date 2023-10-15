@@ -9,13 +9,14 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
-DIRETORIO = '/Users/rafael/Alma/Direito/Legislação/Lei nº 10.406, de 10 de Janeiro de 2002.md'
-TABELA = '/Users/rafael/Library/Mobile Documents/com~apple~CloudDocs/Code/Lexcom/CCT.md'
+DIRETORIO = '/Users/rafael/Alma/Direito/Legislação/Lei nº 13.105, de 16 de Março de 2015.md'
+TABELA = '/Users/rafael/Library/Mobile Documents/com~apple~CloudDocs/Code/Lexcom/CPCT.md'
+
 
 header = """---
-Aliases: Código Civil
+Aliases: CPC, Código de Processo Civil
 Tags: Legislação
-Publicação: 2002-01-11
+Publicação: 2015-03-17
 obsidianUIMode: preview
 ---
 
@@ -102,7 +103,7 @@ def adjust_titles_chapters_sections_and_subsections(text):
     def replace_subsection(match):
         return "##### " + match.group(1) + " - " + match.group(2)
 
-    parte_pattern = re.compile(r"(P A R T E)\s([^\n]+)")
+    parte_pattern = re.compile(r"(PARTE)\s([^\n]+)")
     title_pattern = re.compile(r"(TÍTULO [IVXLC]+)((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))")
     chapter_pattern = re.compile(r"(CAPÍTULO [IVXLC]+)(\s*(-[A-Z]))?((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))")
     section_pattern = re.compile(r"(SEÇÃO [IVXLC]+)((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))")
@@ -115,15 +116,6 @@ def adjust_titles_chapters_sections_and_subsections(text):
     adjusted_text = subsection_pattern.sub(replace_subsection, adjusted_text)
     
     return adjusted_text
-
-def replace_expression(text):
-    # Substitui "Art. n o" por "Art. nº"
-    text = re.sub(r'Art\. (\d+) o', r'Art. \1º', text)
-    
-    # Substitui "§ n o" por "§ nº"
-    text = re.sub(r'§ (\d+) o', r'§ \1º', text)
-    
-    return text
 
 
 def remove_double_asterisks(text):
@@ -196,7 +188,6 @@ def get_markdown_from_url(url):
     markdown_text = remove_multiple_linebreaks(markdown_text)
     markdown_text = markdown_text.replace("{2,}", "\n")
     markdown_text = remove_spaces_at_end_of_paragraphs(markdown_text)
-    markdown_text = replace_expression(markdown_text)
     return markdown_text
 
 def remove_multiple_linebreaks(text):
@@ -233,7 +224,7 @@ def compare_and_update_files(markdown_text, file_b):
 
     write_paragraphs(file_b, updated_str_b.split('\n\n'))
 
-urls = ['http://www.planalto.gov.br/ccivil_03/Leis/2002/L10406compilada.htm']
+urls = ['http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/L13105compilada.htm']
 files_list = [DIRETORIO]
 
 for url, file_b in zip(urls, files_list):

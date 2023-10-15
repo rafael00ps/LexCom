@@ -10,6 +10,8 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 DIRETORIO = '/Users/rafael/Alma/Direito/Legislação/Decreto-Lei nº 4.657, de 4 de Setembro de 1942.md'
+TABELA = '/Users/rafael/Library/Mobile Documents/com~apple~CloudDocs/Code/Lexcom/LINDBT.md'
+
 
 header = """---
 Aliases: LINDB, Lei de Introdução às Normas do Direito Brasileiro
@@ -236,7 +238,7 @@ for url, file_b in zip(urls, files_list):
 def ler_tabela():
     substituicoes = {}
     anexos = []
-    with open('LINDBT.md', 'r', encoding='utf-8') as file:
+    with open(TABELA, 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file, delimiter='|')
         for row in reader:
             original = row[' Original '].strip()
