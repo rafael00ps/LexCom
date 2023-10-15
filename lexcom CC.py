@@ -87,28 +87,34 @@ def adjust_titles_chapters_sections_and_subsections(text):
     def replace_parte(match):
         return "# " + match.group(1) + " " + match.group(2) + "\n"
 
-    def replace_title(match):
+    def replace_book(match):
         title_text = ' '.join(match.group(2).split()).replace('- -', '-')
         return "## " + match.group(1) + " - " + title_text
+
+    def replace_title(match):
+        title_text = ' '.join(match.group(2).split()).replace('- -', '-')
+        return "### " + match.group(1) + " - " + title_text
     
     def replace_chapter(match):
         chapter_title = ' '.join(match.group(4).split()).replace('- -', '-').replace('- ', '-')
-        return "### " + match.group(1) + (match.group(3) or "") + " - " + chapter_title
+        return "#### " + match.group(1) + (match.group(3) or "") + " - " + chapter_title
         
     def replace_section(match):
         section_title = ' '.join(match.group(2).split())
-        return "#### " + match.group(1) + " - " + section_title
+        return "##### " + match.group(1) + " - " + section_title
 
     def replace_subsection(match):
-        return "##### " + match.group(1) + " - " + match.group(2)
+        return "###### " + match.group(1) + " - " + match.group(2)
 
     parte_pattern = re.compile(r"(P A R T E)\s([^\n]+)")
+    book_pattern = re.compile(r"(LIVRO (?:COMPLEMENTAR|[IVXLC]+))((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))")
     title_pattern = re.compile(r"(TÍTULO [IVXLC]+)((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))")
     chapter_pattern = re.compile(r"(CAPÍTULO [IVXLC]+)(\s*(-[A-Z]))?((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))")
     section_pattern = re.compile(r"(SEÇÃO [IVXLC]+)((?:\s*\([^\)]+\))*\s*(?:[^\n]+(?:\n[^\n]+)*))")
     subsection_pattern = re.compile(r"(Subseção [IVXLC]+)\n\n([^\n]+)")
     
     adjusted_text = parte_pattern.sub(replace_parte, text)
+    adjusted_text = book_pattern.sub(replace_book, adjusted_text)
     adjusted_text = title_pattern.sub(replace_title, adjusted_text)
     adjusted_text = chapter_pattern.sub(replace_chapter, adjusted_text)
     adjusted_text = section_pattern.sub(replace_section, adjusted_text)
@@ -125,6 +131,14 @@ def replace_expression(text):
     
     return text
 
+
+def remove_after_substring(text, substring):
+    position = text.find(substring)
+    if position != -1:  # Verifica se a substring foi encontrada
+        return text[:position + len(substring)]
+    return text
+
+substring = "Este texto não substitui o publicado no DOU de 11.1.2002"
 
 def remove_double_asterisks(text):
     return text.replace("**", "")
@@ -198,6 +212,8 @@ def get_markdown_from_url(url):
     markdown_text = markdown_text.replace("{2,}", "\n")
     markdown_text = remove_spaces_at_end_of_paragraphs(markdown_text)
     markdown_text = replace_expression(markdown_text)
+    markdown_text = remove_after_substring(markdown_text, substring)
+
     return markdown_text
 
 def remove_multiple_linebreaks(text):
